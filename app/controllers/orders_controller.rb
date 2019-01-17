@@ -1,5 +1,9 @@
 class OrdersController < ApplicationController
 
+# this secures any the controller and forces them to login before they can see the actions below
+# can be used in any controller you want to control access to
+before_filter :authorize
+
   def show
     @order = Order.find(params[:id])
   end
