@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Order # <%= @user.first_name %> <%= @user.last_name %> has been confirmed!</h1>
+    <% @lineitems.each do |item| %>
+        <%= render 'order_email', product: Product.find(item[:product_id]), quantity: item[:quantity].to_i%>
+    <% end %>
+    <p>Thanks for using Jungle and have a great day!</p>
+  </body>
+</html>
