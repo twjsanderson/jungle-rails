@@ -14,14 +14,24 @@ def open_asset(file_name)
 end
 
 # Only run on development (local) instances not on production, etc.
-unless Rails.env.development?
-  puts "Development seeds only (for now)!"
-  exit 0
-end
+raise "Development seeds only (for now)!" unless Rails.env.development?
 
 # Let's do this ...
+## Users
+
+User.destroy_all
+
+User.create!({
+  first_name: 'Tom',
+  last_name: 'Sanderson',
+  email: 'blah@yahoo.ca',
+  password: 'great',
+  password_confirmation: 'great'
+  })
 
 ## CATEGORIES
+
+Category.destroy_all
 
 puts "Finding or Creating Categories ..."
 
@@ -104,7 +114,7 @@ cat2.products.create!({
   name:  'World\'s Largest Smartwatch',
   description: Faker::Hipster.paragraph(4),
   image: open_asset('electronics3.jpg'),
-  quantity: 32,
+  quantity: 30,
   price: 2_026.29
 })
 
@@ -132,5 +142,28 @@ cat3.products.create!({
   price: 2_483.75
 })
 
+##Reviews
+Review.destroy_all
+
+Review.create!({
+  product_id: 1,
+  user_id: 1,
+  description: 'Great Product!',
+  rating: 5
+})
+
+Review.create!({
+  product_id: 1,
+  user_id: 1,
+  description: 'Fantastic!',
+  rating: 4
+})
+
+Review.create!({
+  product_id: 2,
+  user_id: 1,
+  description: 'Not so good.',
+  rating: 2
+})
 
 puts "DONE!"

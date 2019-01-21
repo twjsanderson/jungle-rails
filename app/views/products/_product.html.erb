@@ -4,12 +4,29 @@
       <%= image_tag product.image.thumb, alt: product.name %>
       <h4><%= product.name %></h4>
     <% end %>
+
+    <% unless product.average_rating.nil? %>
+
+      <% product.average_rating.to_i.times do %>
+        <%= fa_icon('star', class: 'star') %>
+      <% end %>
+
+      <% if product.average_rating < 5 %>
+        <% (5 - product.average_rating.to_i).times do %>
+          <%= fa_icon('star-o', class: 'star') %>
+        <% end %>
+      <% end %>
+
+    <% else %>
+      <p> No Reviews Yet </p>
+    <% end %>
+
   </header>
   <p class="description">
     <%= product.description %>
   </p>
   <footer class="actions">
-    <%= button_to add_item_cart_path(product_id: product.id), class: 'btn btn-primary' , method: :post do %>
+    <%= link_to add_item_cart_path(product_id: product.id), class: 'btn btn-primary', method: :put do %>
       <%= fa_icon "shopping-cart", text: 'Add' %>
     <% end %>
     <%= link_to product, class: 'btn btn-default pull-right' do %>
@@ -17,14 +34,12 @@
     <% end %>
   </footer>
 
-  <% if product.quantity == 0 %>
-    <aside class="sold-out">
-      <p>SOLD OUT!</p>
-    </aside>
-  <% else %>
-    <aside class="price">
-      <%= humanized_money_with_symbol product.price %>
+  <aside class="price">
+    <%= humanized_money_with_symbol product.price %>
+  </aside>
+  <% if product.quantity < 1 %>
+    <aside class="sold_out">
+      <p> SOLD OUT! </p>
     </aside>
   <% end %>
-
 </article>
